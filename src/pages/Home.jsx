@@ -191,7 +191,7 @@ function Home({ darkMode }) {
             </div>
             <button 
               className="flex items-center gap-2 text-primary hover:text-primary-dark dark:hover:text-primary-light transition-colors"
-              onClick={() => toast.info("View all jobs feature coming soon!")}
+              onClick={() => navigate('/opportunities')}
             >
               View all opportunities
               <ArrowRightIcon className="h-4 w-4" />
