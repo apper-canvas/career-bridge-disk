@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import MainFeature from '../components/MainFeature';
 import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
 import jobsData from '../utils/jobsData';
 import getIcon from '../utils/iconUtils';
 
@@ -140,7 +139,8 @@ function Jobs({ darkMode, showAllOpportunities = false }) {
 
   // Apply for job
   const applyForJob = (job) => {
-    toast.success(`Applied to ${job.title} at ${job.company}!`);
+    // Application submitted
+    console.log(`Applied to ${job.title} at ${job.company}`);
   };
 
   // Get available filter options from the data
@@ -436,7 +436,7 @@ function Jobs({ darkMode, showAllOpportunities = false }) {
                             </button>
                             <button 
                               className="text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-white text-sm"
-                              onClick={() => toast.info(`Details for ${job.title} will open in a modal (coming soon)`)}
+                              onClick={() => console.log(`View details for ${job.title}`)}
                             >
                               View details
                             </button>

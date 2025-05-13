@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
 import getIcon from '../utils/iconUtils';
 
 function Employers({ darkMode }) {
@@ -82,7 +81,6 @@ function Employers({ darkMode }) {
     setErrors(newErrors);
     
     if (Object.keys(newErrors).length > 0) {
-      toast.error('Please fix the errors in the form');
       return;
     }
     
@@ -92,7 +90,7 @@ function Employers({ darkMode }) {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      toast.success('Registration successful! You can now post job opportunities.');
+      // Registration successful
       
       // Reset form after successful submission
       setFormData({
@@ -107,7 +105,7 @@ function Employers({ darkMode }) {
         acceptTerms: false
       });
     } catch (error) {
-      toast.error('Registration failed. Please try again later.');
+      // Registration failed
     } finally {
       setIsSubmitting(false);
     }

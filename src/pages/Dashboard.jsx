@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import DashboardTabs from '../components/DashboardTabs';
 import StudentProfile from './StudentProfile';
 
@@ -20,7 +19,6 @@ const Dashboard = ({ darkMode }) => {
         setProfileData(JSON.parse(storedProfile));
       } catch (error) {
         console.error('Error parsing profile data:', error);
-        toast.error('Error loading profile data');
       }
     }
     
@@ -36,7 +34,6 @@ const Dashboard = ({ darkMode }) => {
     setProfileData(data);
     // In a real app, this would be an API call
     localStorage.setItem('studentProfile', JSON.stringify(data));
-    toast.success('Profile updated successfully!');
   };
 
   // Dashboard tabs configuration

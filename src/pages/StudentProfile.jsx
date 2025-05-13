@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 const StudentProfile = ({ darkMode, onSave, initialData = null, isEmbedded = false }) => {
   const navigate = useNavigate();
@@ -41,7 +40,6 @@ const StudentProfile = ({ darkMode, onSave, initialData = null, isEmbedded = fal
           setFormData(JSON.parse(storedProfile));
         } catch (error) {
           console.error('Error parsing profile data:', error);
-          toast.error('Error loading profile data');
         }
       }
     }
@@ -78,7 +76,6 @@ const StudentProfile = ({ darkMode, onSave, initialData = null, isEmbedded = fal
           resume: null
         }));
       } else {
-        toast.error('Please upload a PDF file');
       }
     }
   };
@@ -123,7 +120,6 @@ const StudentProfile = ({ darkMode, onSave, initialData = null, isEmbedded = fal
     e.preventDefault();
     
     if (!validateForm()) {
-      toast.error('Please fix the errors in the form');
       return;
     }
     
@@ -147,7 +143,6 @@ const StudentProfile = ({ darkMode, onSave, initialData = null, isEmbedded = fal
         // If callback provided (from Dashboard), use it
         onSave(profileData);
       } else {
-        toast.success('Profile updated successfully!');
         navigate('/dashboard');
       }
     }, 1000);
