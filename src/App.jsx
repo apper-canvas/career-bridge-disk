@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Jobs from './pages/Jobs';
+import Employers from './pages/Employers';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -67,6 +68,18 @@ function App() {
                   Jobs
                 </NavLink>
                 <NavLink 
+                  to="/employers" 
+                  className={({ isActive }) => 
+                    `px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      isActive 
+                        ? 'bg-primary/10 text-primary' 
+                        : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 hover:text-surface-900 dark:hover:text-white'
+                    }`
+                  }
+                >
+                  For Employers
+                </NavLink>
+                <NavLink 
                   to="/companies" 
                   className={({ isActive }) => 
                     `px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -75,7 +88,6 @@ function App() {
                         : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 hover:text-surface-900 dark:hover:text-white'
                     }`
                   }
-                  onClick={(e) => {e.preventDefault(); toast.info("Companies page coming soon!")}}
                 >
                   Companies
                 </NavLink>
@@ -96,6 +108,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home darkMode={darkMode} />} />
             <Route path="/jobs" element={<Jobs darkMode={darkMode} />} />
+            <Route path="/employers" element={<Employers darkMode={darkMode} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

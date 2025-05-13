@@ -120,8 +120,8 @@ function Home({ darkMode }) {
                 </button>
                 <button 
                   className="btn-outline flex items-center justify-center gap-2 py-3 px-6 text-base"
-                  onClick={() => toast.info("Company registration feature coming soon!")}
-                >
+                  onClick={() => navigate('/employers')}
+                > 
                   For Employers
                 </button>
               </motion.div>
