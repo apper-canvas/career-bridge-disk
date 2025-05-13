@@ -89,7 +89,6 @@ function App() {
                 {darkMode ? '🌞' : '🌙'}
               </button>
             </div>
-            </button>
           </div>
         </header>
         
