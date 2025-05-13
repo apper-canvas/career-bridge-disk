@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import MainFeature from '../components/MainFeature';
 import getIcon from '../utils/iconUtils';
 
@@ -251,7 +250,7 @@ function Home({ darkMode }) {
                     </span>
                     <button 
                       className="text-primary hover:text-primary-dark dark:hover:text-primary-light font-medium flex items-center gap-1"
-                      onClick={() => toast.success(`Applied to ${job.title} at ${job.company}!`)}
+                      onClick={() => navigate(`/jobs`)}
                     >
                       Apply now
                       <ArrowRightIcon className="h-4 w-4" />
@@ -317,13 +316,13 @@ function Home({ darkMode }) {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button 
                     className="btn-primary py-3 px-6"
-                    onClick={() => toast.success("Student registration coming soon!")}
+                    onClick={() => navigate('/dashboard')}
                   >
                     Get Started
                   </button>
                   <button 
                     className="btn-outline py-3 px-6"
-                    onClick={() => toast.info("You can browse jobs without registering")}
+                    onClick={() => navigate('/jobs')}
                   >
                     Learn More
                   </button>
