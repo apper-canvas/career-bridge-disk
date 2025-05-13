@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import getIcon from '../utils/iconUtils';
 
 function MainFeature({ darkMode }) {
@@ -26,6 +25,7 @@ function MainFeature({ darkMode }) {
   const [showFilters, setShowFilters] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
   const [savedJobs, setSavedJobs] = useState([]);
 
   // Mock job data
@@ -121,11 +121,12 @@ function MainFeature({ darkMode }) {
       
       setSearchResults(filteredResults);
       setLoading(false);
-      
+
       if (filteredResults.length === 0) {
-        toast.info("No jobs found. Try adjusting your search criteria.");
+        setResultMessage("No jobs found. Try adjusting your search criteria.");
       } else {
-        toast.success(`Found ${filteredResults.length} jobs matching your criteria`);
+        setResultMessage(`Found ${filteredResults.length} jobs matching your criteria`);
+        setTimeout(() => setResultMessage(''), 3000);
       }
     }, 800);
   };
@@ -137,17 +138,16 @@ function MainFeature({ darkMode }) {
     setJobType('');
     setCategory('');
     setSearchResults([]);
+    setResultMessage('');
   };
 
   // Toggle job bookmark/save
   const toggleSaveJob = (jobId) => {
     if (savedJobs.includes(jobId)) {
       setSavedJobs(savedJobs.filter(id => id !== jobId));
-      toast.info("Job removed from saved list");
     } else {
       setSavedJobs([...savedJobs, jobId]);
-      toast.success("Job saved to your list!");
-    }
+    } 
   };
 
   // Handle search on Enter key press
@@ -303,7 +303,12 @@ function MainFeature({ darkMode }) {
         ) : searchResults.length > 0 ? (
           <>
             <h3 className="text-xl font-medium mb-4">
-              {searchResults.length} {searchResults.length === 1 ? 'Result' : 'Results'} Found
+              {searchResults.length} {searchResults.length === 1 ? 'Result' : 'Results'} Found 
+              {resultMessage && (
+                <span className="ml-2 text-sm text-primary animate-pulse">
+                  {resultMessage}
+                </span>
+              )}
             </h3>
             
             {searchResults.map((job) => (
@@ -361,7 +366,7 @@ function MainFeature({ darkMode }) {
                     </span>
                     <button 
                       className="btn-primary text-sm px-4 py-1.5"
-                      onClick={() => toast.success(`Applied to ${job.title} at ${job.company}!`)}
+                      onClick={() => navigate(`/jobs/${job.id}`)}
                     >
                       Apply Now
                     </button>
