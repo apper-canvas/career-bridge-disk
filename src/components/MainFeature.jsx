@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import getIcon from '../utils/iconUtils';
 
@@ -14,6 +15,8 @@ function MainFeature({ darkMode }) {
   const TagIcon = getIcon('Tag');
   const BookmarkIcon = getIcon('Bookmark');
   const BookmarkCheckIcon = getIcon('BookmarkCheck');
+  
+  const navigate = useNavigate();
 
   // State for job search
   const [searchTerm, setSearchTerm] = useState('');
@@ -148,9 +151,9 @@ function MainFeature({ darkMode }) {
   };
 
   // Handle search on Enter key press
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      handleSearch(); 
     }
   };
 
@@ -160,7 +163,7 @@ function MainFeature({ darkMode }) {
     : "bg-white shadow-neu-light border border-surface-200";
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto px-4">
       {/* Search Section with Neumorphic Design */}
       <div className={`${searchBarClasses} rounded-2xl p-4 md:p-6 mb-8 transition-all duration-300`}>
         <div className="flex flex-col md:flex-row gap-4">
@@ -173,7 +176,7 @@ function MainFeature({ darkMode }) {
               className="input-field pl-10 w-full bg-surface-50 dark:bg-surface-700 border-surface-200 dark:border-surface-600"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
             />
           </div>
           

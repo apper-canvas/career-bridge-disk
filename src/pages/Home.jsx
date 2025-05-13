@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import MainFeature from '../components/MainFeature';
 import getIcon from '../utils/iconUtils';
@@ -12,6 +13,8 @@ function Home({ darkMode }) {
   const SearchIcon = getIcon('Search');
   const ArrowRightIcon = getIcon('ArrowRight');
   const CheckCircleIcon = getIcon('CheckCircle');
+  
+  const navigate = useNavigate();
 
   // Sample featured job openings
   const [featuredJobs] = useState([
@@ -111,7 +114,7 @@ function Home({ darkMode }) {
               >
                 <button 
                   className="btn-primary flex items-center justify-center gap-2 py-3 px-6 text-base"
-                  onClick={() => toast.success("Student profile feature coming soon!")}
+                  onClick={() => navigate('/jobs')}
                 >
                   Find Jobs <ArrowRightIcon className="h-5 w-5" />
                 </button>
