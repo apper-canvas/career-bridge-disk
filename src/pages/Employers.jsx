@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import getIcon from '../utils/iconUtils';
+import { createEmployer } from '../services/employerService';
 
 function Employers({ darkMode }) {
   // Get icons
@@ -28,6 +29,7 @@ function Employers({ darkMode }) {
   // Validation state
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -87,10 +89,23 @@ function Employers({ darkMode }) {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Real API call to create employer
+      const result = await createEmployer({
+        companyName: formData.companyName,
+        industry: formData.industry,
+        size: formData.size,
+        contactName: formData.contactName,
+        contactEmail: formData.contactEmail,
+        contactPhone: formData.contactPhone,
+        website: formData.website,
+        description: formData.description
+      });
       
       // Registration successful
+      setSubmitSuccess(true);
+      
+      // Show success message temporarily
+      setTimeout(() => setSubmitSuccess(false), 5000);
       
       // Reset form after successful submission
       setFormData({
@@ -105,7 +120,8 @@ function Employers({ darkMode }) {
         acceptTerms: false
       });
     } catch (error) {
-      // Registration failed
+      console.error("Error creating employer:", error);
+      alert("Failed to register employer. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -131,6 +147,13 @@ function Employers({ darkMode }) {
         transition={{ duration: 0.5, delay: 0.1 }}
         className="card p-6 md:p-8"
       >
+        {submitSuccess && (
+          <div className="mb-6 p-4 bg-green-100 dark:bg-green-800/30 border border-green-200 dark:border-green-700 rounded-lg text-green-800 dark:text-green-200">
+            <p className="font-medium">Registration successful!</p>
+            <p className="text-sm mt-1">Your employer account has been created. Our team will review your information and contact you shortly.</p>
+          </div>
+        )}
+        
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Company Information */}

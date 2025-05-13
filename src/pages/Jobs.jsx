@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import MainFeature from '../components/MainFeature';
 import { motion } from 'framer-motion';
-import jobsData from '../utils/jobsData';
+
+// Import job service for data fetching
+import { getJobs } from '../services/jobService';
 import getIcon from '../utils/iconUtils';
 
 function Jobs({ darkMode, showAllOpportunities = false }) {
@@ -36,13 +38,37 @@ function Jobs({ darkMode, showAllOpportunities = false }) {
 
   // Initialize jobs data
   useEffect(() => {
-    // Simulate API call
-    const fetchJobs = () => {
+    // Real data fetching from the job service
+    const fetchJobs = async () => {
       setLoading(true);
-      setTimeout(() => {
-        setJobs(jobsData);
+      
+      try {
+        // Get jobs with optional filtering
+        let jobsData = await getJobs();
+        
+        // Format job data to match the expected structure in our UI
+        // This ensures compatibility with existing code
+        const formattedJobs = jobsData.map(job => ({
+          id: job.Id,
+          title: job.title || job.Name,
+          company: job.company || "Unknown",
+          location: job.location || "Remote",
+          type: job.type || "Full-time",
+          salary: job.salary || "Not specified",
+          experience: job.experience || "Entry level",
+          posted: job.posted || "Recently",
+          description: job.description || "No description provided",
+          responsibilities: typeof job.responsibilities === 'string' ? job.responsibilities.split('\n') : [],
+          requirements: typeof job.requirements === 'string' ? job.requirements.split('\n') : [],
+          tags: job.tags || []
+        }));
+        
+        setJobs(formattedJobs);
         setLoading(false);
-      }, 800);
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+        setLoading(false);
+      }
     };
 
     fetchJobs();
@@ -137,9 +163,16 @@ function Jobs({ darkMode, showAllOpportunities = false }) {
     setSortBy('recent');
   };
 
-  // Apply for job
-  const applyForJob = (job) => {
-    // Application submitted
+  // Apply for job - will use our service in a real implementation
+  const applyForJob = async (job) => {
+    // Check if user is authenticated through Redux
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (!user || !user.isAuthenticated) {
+      // Redirect to login if not authenticated
+      window.location.href = '/login';
+      return;
+    }
     console.log(`Applied to ${job.title} at ${job.company}`);
   };
 

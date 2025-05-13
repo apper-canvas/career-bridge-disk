@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardTabs from '../components/DashboardTabs';
 import StudentProfile from './StudentProfile';
+import { getStudentProfileByUserId } from '../services/studentProfileService';
+import { useSelector } from 'react-redux';
 
 const Dashboard = ({ darkMode }) => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -9,25 +11,36 @@ const Dashboard = ({ darkMode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading profile data
+    // Get the authenticated user from Redux
+    const userState = useSelector((state) => state.user);
+    
+    // Load profile data from API
     setIsLoading(true);
     
-    // Try to load profile data from localStorage
-    const storedProfile = localStorage.getItem('studentProfile');
-    if (storedProfile) {
-      try {
-        setProfileData(JSON.parse(storedProfile));
-      } catch (error) {
-        console.error('Error parsing profile data:', error);
+    const loadProfileData = async () => {
+      if (userState && userState.isAuthenticated) {
+        try {
+          // Try to get the profile from the database
+          const profile = await getStudentProfileByUserId(userState.user.userId);
+          
+          if (profile) {
+            setProfileData(profile);
+          } else {
+            // Fallback to localStorage if no profile exists in the database
+            const storedProfile = localStorage.getItem('studentProfile');
+            if (storedProfile) {
+              setProfileData(JSON.parse(storedProfile));
+            }
+          }
+        } catch (error) {
+          console.error('Error loading profile data:', error);
+        }
       }
-    }
-    
-    // Simulate API request delay
-    const timer = setTimeout(() => {
+      
       setIsLoading(false);
-    }, 500);
+    };
     
-    return () => clearTimeout(timer);
+    loadProfileData();
   }, []);
 
   const handleProfileUpdate = (data) => {
