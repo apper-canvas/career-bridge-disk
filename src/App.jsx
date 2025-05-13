@@ -225,9 +225,7 @@ function App() {
           </div>
         </footer>
       </div>
-    </>
+    </AuthContext.Provider>
   );
 }
-
 export default App;
-    </AuthContext.Provider>
